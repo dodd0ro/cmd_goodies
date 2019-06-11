@@ -1,10 +1,11 @@
 @ECHO OFF
-setlocal EnableDelayedExpansion
+SETLOCAL EnableDelayedExpansion
 
 :loop
 REM # print tree
-echo %CD%
+ECHO %CD%
 set /A n = 1
+ECHO [0] ..
 FOR /D %%f IN (*) DO (
     set flist[!n!]=%%f
     ECHO [!n!] %%f
@@ -12,11 +13,15 @@ FOR /D %%f IN (*) DO (
 )
 
 REM # user input
-set fid=
+set fid= 
 set /p fid=">> "
-echo.
+ECHO.
+
 IF "%fid%"=="" GOTO :end
 IF "%fid: =%"=="" GOTO :end
+
+set /a fnum=%fid%
+IF NOT "%fid%"=="%fnum%" GOTO :loop
 
 IF "%fid%"=="0" (
     set "f=.."
@@ -30,7 +35,9 @@ GOTO :loop
 
 REM # finaly
 :end
-echo %CD%| clip
+ENDLOCAL & SET nd=%cd%
+cd %nd%
+
 
 
 
